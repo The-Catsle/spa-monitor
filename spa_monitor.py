@@ -3,6 +3,8 @@
 import os
 import requests
 from dotenv import load_dotenv
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 
 # Load environment variables
 load_dotenv()
@@ -14,6 +16,8 @@ PUSHOVER_API_TOKEN = os.getenv("PUSHOVER_API_TOKEN")
 PUSHOVER_USER_KEY = os.getenv("PUSHOVER_USER_KEY")
 PUSHOVER_PRIORITY = int(os.getenv("PUSHOVER_PRIORITY", "0"))  # Default to normal priority
 PUSHOVER_TITLE = os.getenv("PUSHOVER_TITLE", "Spa Monitor")
+SLACK_TOKEN = os.getenv("CATSLE_SPA_SLACKBOT_TOKEN")
+SLACK_CHANNEL = "#catsle-cub"
 
 # PH thresholds
 PH_MIN = 7.0
@@ -38,6 +42,19 @@ def send_pushover_notification(message):
     response = requests.post("https://api.pushover.net/1/messages.json", data=data)
     response.raise_for_status()
 
+def send_slack_notification(message):
+    """Send a notification via Slack."""
+    try:
+        client = WebClient(token=SLACK_TOKEN)
+        client.chat_postMessage(channel=SLACK_CHANNEL, text=message)
+    except SlackApiError as e:
+        print(f"Error sending Slack message: {e.response['error']}")
+
+def send_notifications(message):
+    """Send notifications to both Pushover and Slack."""
+    send_pushover_notification(message)
+    send_slack_notification(message)
+
 def check_ph_levels(status):
     """Check PH levels and send notification if outside acceptable range."""
     ph = status.get("ph")
@@ -50,8 +67,7 @@ def check_ph_levels(status):
     else:
         message = f"Spa PH is good ({ph:.2f})."
 
-    send_pushover_notification(message)
-
+    send_notifications(message)
 
 def main():
     """Main function to check spa status and send notifications if needed."""
@@ -60,10 +76,10 @@ def main():
         check_ph_levels(status)
     except requests.exceptions.RequestException as e:
         error_message = f"Error checking spa status: {str(e)}"
-        send_pushover_notification(error_message)
+        send_notifications(error_message)
     except Exception as e:
         error_message = f"Unexpected error: {str(e)}"
-        send_pushover_notification(error_message)
+        send_notifications(error_message)
 
 if __name__ == "__main__":
     main()
