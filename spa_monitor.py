@@ -52,7 +52,7 @@ def send_slack_notification(message):
 
 def send_notifications(message):
     """Send notifications to both Pushover and Slack."""
-    send_pushover_notification(message)
+    # send_pushover_notification(message)
     send_slack_notification(message)
 
 def check_ph_levels(status):
@@ -61,11 +61,11 @@ def check_ph_levels(status):
     if ph is None:
         message = "No PH returned from request"
     elif ph < PH_MIN:
-        message = f"Warning: Spa PH is too low ({ph:.2f}). Aim for 7.2"
+        message = f":sus: Spa PH is too low ({ph:.2f}). Aim for 7.2"
     elif ph > PH_MAX:
-        message = f"Warning: Spa PH is too high ({ph:.2f}). Aim for 7.2"
+        message = f":sus: Spa PH is too high ({ph:.2f}). Aim for 7.2"
     else:
-        message = f"Spa PH is good ({ph:.2f})."
+        message = f":party-fox:Spa PH is good ({ph:.2f})."
 
     send_notifications(message)
 
