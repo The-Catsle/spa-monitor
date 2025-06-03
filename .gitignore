@@ -13,3 +13,5 @@ spa_logger/venv/*
 *.pyd
 *.swp
 *.log
+*.db
+
