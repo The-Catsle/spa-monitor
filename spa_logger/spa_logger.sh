@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Get the directory where the script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd /home/paul/catsle_cub_alerts/spa_logger
 
-# Change to the script directory
-cd "$SCRIPT_DIR"
+# Create virtual environment
+python3 -m venv venv
 
-# Activate virtual environment if it exists
-if [ -d "../venv" ]; then
-    source "../venv/bin/activate"
-fi
+# Activate virtual environment
+source venv/bin/activate
+
+# Install requirements
+pip install -r requirements.txt
 
 # Run the spa logger
 python3 spa_logger.py 
