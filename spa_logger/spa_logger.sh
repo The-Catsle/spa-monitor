@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/paul/catsle_cub_alerts/spa_logger
+cd /home/paul/git/catsle_cub_alerts/spa_logger
 
 # Create virtual environment
 python3 -m venv venv
@@ -9,7 +9,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Install requirements
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 # Run the spa logger
 python3 spa_logger.py 
