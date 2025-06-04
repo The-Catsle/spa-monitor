@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/paul/catsle_cub_alerts
+cd /home/paul/git/catsle_cub_alerts
 
 # Create virtual environment
 python3 -m venv venv
