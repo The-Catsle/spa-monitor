@@ -1,3 +1,5 @@
 python-dotenv>=1.0.0
 requests>=2.31.0
-slack-sdk>=3.26.0 
+slack-sdk>=3.26.0
+plotext>=5.2.8
+pint>=0.22
