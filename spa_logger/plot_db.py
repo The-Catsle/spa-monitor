@@ -67,19 +67,21 @@ def plot_metric(metric, time_span):
     if not data:
         print("No data found for the specified time period")
         return
-    
+
     timestamps, values = zip(*data)
-    # Convert datetime objects to timestamps (seconds since epoch)
-    timestamps = [ts.timestamp() for ts in timestamps]
-    
-    plt.clf()
-    plt.plot(timestamps, values)
-    plt.title(f"{metric.upper()} over the last {time_span}")
-    plt.xlabel("Time")
-    plt.ylabel(metric.upper())
-    
-    # Format x-axis with dates
-    plt.date_form("%Y-%m-%d %H:%M:%S")
+
+    # Convert datetime objects to strings
+    datetimes = [datetime.strftime(dt, '%d/%m/%Y %H:%M:%S') for dt in timestamps]
+
+    print(datetimes[0])
+
+    plt.date_form("d/m/Y H:M:S")
+
+    # plt.clf()
+    plt.plot(datetimes, values)
+    # plt.title(f"{metric.upper()} over the last {time_span}")
+    # plt.xlabel("Time")
+    # plt.ylabel(metric.upper())
     
     plt.show()
 
@@ -94,4 +96,4 @@ def main():
     plot_metric(args.metric, args.time_span)
 
 if __name__ == "__main__":
-    main() 
+    main()
