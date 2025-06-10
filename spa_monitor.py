@@ -20,8 +20,8 @@ SLACK_TOKEN = os.getenv("CATSLE_SPA_SLACKBOT_TOKEN")
 SLACK_CHANNEL = "#catsle-cub"
 
 # PH thresholds
-PH_MIN = 7.0
-PH_MAX = 7.4
+PH_MIN = 6.9
+PH_MAX = 7.5
 
 def get_spa_status():
     """Get the current status of the spa."""
@@ -57,6 +57,11 @@ def send_notifications(message):
 
 def check_ph_levels(status):
     """Check PH levels and send notification if outside acceptable range."""
+    connected = status.get("connected")
+    if not connected:
+        message = "Spa is disconnected."
+        send_notifications(message)
+        return
     ph = status.get("ph")
     if ph is None:
         message = "No PH returned from request"

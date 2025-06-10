@@ -39,7 +39,7 @@ def get_metric_data(metric, hours_back):
         query = f'''
             SELECT timestamp, {db_column}
             FROM spa_metrics
-            WHERE timestamp >= ?
+            WHERE timestamp >= ? AND connected = 1
             ORDER BY timestamp
         '''
         
